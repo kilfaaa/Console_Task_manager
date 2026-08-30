@@ -1,5 +1,20 @@
 import json
 
+def add_task(tasks):
+
+    task_title = input("Введите название: ")
+    task_description = input ("Введите описание: ")
+
+    new_id = max((task.get("id", 0) for task in tasks), default=0) + 1
+    task = {
+        "id": new_id,
+        "title": task_title,
+        "description": task_description,
+        "completed": False
+    }
+    tasks.append(task)
+    save_tasks(tasks)
+    print("\nВы успешно записали задачу!\n")
 
 def main():
 
