@@ -1,5 +1,5 @@
 import json
-
+import datetime
 def add_task(tasks):
 
     task_title = input("Введите название: ")
@@ -24,12 +24,14 @@ def add_task(tasks):
             print("\nОшибка: такого приоритета не существует. Введите 1, 2 или 3.\n")
 
     new_id = max((task.get("id", 0) for task in tasks), default=0) + 1
+    create_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     task = {
         "id": new_id,
         "title": task_title,
         "description": task_description,
         "completed": False,
-        "priority": task_priority
+        "priority": task_priority,
+        "created_at": create_time
     }
     tasks.append(task)
     save_tasks(tasks)
