@@ -32,6 +32,11 @@ def show_tasks(tasks):
 
             print(f"\n{status} ID: {task_id} \nНазвание: {task_title} \nОписание: {task_description}\n")
 
+def save_tasks(task):
+    with open('tasks.json', 'w', encoding='utf-8') as task_file:
+        json.dump(task, task_file, ensure_ascii=False, indent=4)
+    return
+
 
 def main():
     try:
