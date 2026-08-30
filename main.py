@@ -16,7 +16,31 @@ def add_task(tasks):
     save_tasks(tasks)
     print("\nВы успешно записали задачу!\n")
 
+
+def show_tasks(tasks):
+    if not tasks:
+        print("\nСписок задач пуст.\n")
+        return
+    else:
+        print("====Список задач====")
+
+        for task in tasks:
+            status = "[x]" if task.get("completed", False) else "[]"
+            task_id = task.get("id")
+            task_title = task.get("title")
+            task_description = task.get("description")
+
+            print(f"\n{status} ID: {task_id} \nНазвание: {task_title} \nОписание: {task_description}\n")
+
+
 def main():
+    try:
+        with open('tasks.json', 'r', encoding='utf-8') as task_file:
+            tasks = json.load(task_file)
+    except FileNotFoundError:
+        tasks = []
+    except json.decoder.JSONDecodeError:
+        tasks = []
 
     while True:
         print("=== Task Manager ==="
