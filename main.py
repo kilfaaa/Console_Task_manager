@@ -4,13 +4,32 @@ def add_task(tasks):
 
     task_title = input("Введите название: ")
     task_description = input ("Введите описание: ")
+    while True:
+        task_priority = input("Выберите приоритет задачи:"
+                              "\n1. High"
+                              "\n2. Medium"
+                              "\n3. Low"
+                              "\nПриоритет: ")
+
+        if task_priority == "1":
+            task_priority = "High"
+            break
+        elif task_priority == "2":
+            task_priority = "Medium"
+            break
+        elif task_priority == "3":
+            task_priority = "Low"
+            break
+        else:
+            print("\nОшибка: такого приоритета не существует. Введите 1, 2 или 3.\n")
 
     new_id = max((task.get("id", 0) for task in tasks), default=0) + 1
     task = {
         "id": new_id,
         "title": task_title,
         "description": task_description,
-        "completed": False
+        "completed": False,
+        "priority": task_priority
     }
     tasks.append(task)
     save_tasks(tasks)
@@ -29,8 +48,9 @@ def show_tasks(tasks):
             task_id = task.get("id")
             task_title = task.get("title")
             task_description = task.get("description")
+            task_priority = task.get("priority")
 
-            print(f"\n{status} ID: {task_id} \nНазвание: {task_title} \nОписание: {task_description}\n")
+            print(f"\n{status} ID: {task_id} \nНазвание: {task_title} \nОписание: {task_description}\nПриоритет: {task_priority}\n")
 
 
 def complete_task(tasks):
@@ -118,6 +138,27 @@ def search_task(tasks):
     return
 
 
+def priority_filter(tasks):
+    task_priority = input("Введите приоритет для фильтрации задач \n(high, medium, low): ").strip().lower()
+    if not task_priority:
+        print("\nОшибка: ввод пустой!\n")
+        return
+
+    filtered_tasks = []
+    for task in tasks:
+        if task_priority in task.get("priority", " ").lower():
+            filtered_tasks.append(task)
+
+    if filtered_tasks:
+        print(f"\nСписок задач с приоритетом {task_priority}: \n")
+        show_tasks(filtered_tasks)
+    else:
+        print ("\nТаких задач не найдено.\n")
+
+
+    return
+
+
 def save_tasks(task):
     with open('tasks.json', 'w', encoding='utf-8') as task_file:
         json.dump(task, task_file, ensure_ascii=False, indent=4)
@@ -141,6 +182,7 @@ def main():
                   "\n4. Удалить задачу"
                   "\n5. Найти задачи"
                   "\n6. Показать статистику"
+                  "\n7. Показать задачи по приоритету"
                   "\n0. Выход")
 
         choice = input ("Выберите пункт: ")
@@ -160,6 +202,8 @@ def main():
                 search_task(tasks)
             elif choice == "6":
                 show_statistics(tasks)
+            elif choice == "7":
+                priority_filter(tasks)
         else:
             print("\nВведите корректное число.\n")
 

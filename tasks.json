@@ -1,8 +1,37 @@
 [
     {
         "id": 1,
-        "title": "Изучить структуру циклов",
-        "description": "for, while",
-        "completed": false
+        "title": "Learn Phyton",
+        "description": "for and while",
+        "completed": false,
+        "priority": "High"
+    },
+    {
+        "id": 2,
+        "title": "Update Windows",
+        "description": "Version: 11",
+        "completed": false,
+        "priority": "Medium"
+    },
+    {
+        "id": 3,
+        "title": "Download PyCharm",
+        "description": "Last version",
+        "completed": false,
+        "priority": "Low"
+    },
+    {
+        "id": 4,
+        "title": "Watch Reels",
+        "description": "100 times",
+        "completed": false,
+        "priority": "Low"
+    },
+    {
+        "id": 5,
+        "title": "Play football",
+        "description": "40 mins",
+        "completed": false,
+        "priority": "Low"
     }
 ]
