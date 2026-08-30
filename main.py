@@ -52,6 +52,25 @@ def complete_task(tasks):
     return
 
 
+def delete_task(tasks):
+    id_number = input("Введите номер задачи, которую вы хотите удалить: ")
+
+    if id_number.isdigit():
+        id_target = int(id_number)
+        for task in tasks:
+            if task.get('id') == id_target:
+                tasks.remove(task)
+                print(f"\nЗадача {id_target} удалена!\n")
+                break
+        else:
+            print(f"\nЗадачи {id_number} не существует!\n")
+
+        save_tasks(tasks)
+    else:
+        print("\nНекорректный ввод. Введите конкретное число!\n")
+    return
+
+
 def search_task(tasks):
     task_word = input("Поиск: ").strip().lower()
     if not task_word:
