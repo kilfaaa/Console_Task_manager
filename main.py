@@ -32,6 +32,26 @@ def show_tasks(tasks):
 
             print(f"\n{status} ID: {task_id} \nНазвание: {task_title} \nОписание: {task_description}\n")
 
+
+def complete_task(tasks):
+    id_number = input("Введите номер задачи, которую вы выполнили: ")
+
+    if id_number.isdigit():
+        id_target = int(id_number)
+        for task in tasks:
+            if task.get('id') == id_target:
+                task["completed"] = True
+                print(f"\nЗадача {id_target} выполнена!\n")
+                break
+        else:
+            print(f"\nЗадачи {id_number} не существует!\n")
+
+        save_tasks(tasks)
+    else:
+        print ("\nID должен быть числом.\n")
+    return
+
+
 def save_tasks(task):
     with open('tasks.json', 'w', encoding='utf-8') as task_file:
         json.dump(task, task_file, ensure_ascii=False, indent=4)
