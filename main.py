@@ -103,6 +103,20 @@ def search_task(tasks):
         print("\nПоисковый запрос не может быть пустым!\n")
         return
 
+    found = False
+
+    for task in tasks:
+        if task_word in task.get("title", " ").lower():
+            task_title = task.get("title")
+            task_id = task.get("id")
+            print(f"ID: {task_id} -", task_title)
+            found = True
+
+    if not found:
+        print("\nТаких задач не найдено!\n")
+
+    return
+
 
 def save_tasks(task):
     with open('tasks.json', 'w', encoding='utf-8') as task_file:
