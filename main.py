@@ -4,6 +4,8 @@ def add_task(tasks):
 
     task_title = input("Введите название: ")
     task_description = input ("Введите описание: ")
+
+
     while True:
         task_priority = input("Выберите приоритет задачи:"
                               "\n1. High"
@@ -23,6 +25,18 @@ def add_task(tasks):
         else:
             print("\nОшибка: такого приоритета не существует. Введите 1, 2 или 3.\n")
 
+
+    while True:
+        task_deadline = input("Введите дедлайн в формате ГГГГ-ММ-ДД: ").strip()
+
+        try:
+            valid_date = datetime.datetime.strptime(task_deadline, "%Y-%m-%d")
+            deadline_date = valid_date.strftime("%Y-%m-%d")
+            break
+        except ValueError:
+            print("\nОшибка! Неверный формат или несуществующая дата. Попробуйте снова (ГГГГ-ММ-ДД).\n")
+
+
     new_id = max((task.get("id", 0) for task in tasks), default=0) + 1
     create_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     task = {
@@ -31,7 +45,8 @@ def add_task(tasks):
         "description": task_description,
         "completed": False,
         "priority": task_priority,
-        "created_at": create_time
+        "created_at": create_time,
+        "deadline": deadline_date
     }
     tasks.append(task)
     save_tasks(tasks)
@@ -51,8 +66,15 @@ def show_tasks(tasks):
             task_title = task.get("title")
             task_description = task.get("description")
             task_priority = task.get("priority")
+            task_created_at = task.get("created_at")
+            task_deadline = task.get("deadline")
 
-            print(f"\n{status} ID: {task_id} \nНазвание: {task_title} \nОписание: {task_description}\nПриоритет: {task_priority}\n")
+            print(f"\n{status} ID: {task_id} "
+                  f"\nНазвание: {task_title} "
+                  f"\nОписание: {task_description}"
+                  f"\nПриоритет: {task_priority}"
+                  f"\nВремя создания: {task_created_at}"
+                  f"\nДедлайн: {task_deadline}\n")
 
 
 def complete_task(tasks):
@@ -104,7 +126,6 @@ def show_statistics(tasks):
         if task.get("completed", False):
             completed_tasks += 1
         else:
-
             uncompleted_tasks += 1
 
     complete_percent = int(completed_tasks / task_count * 100)
@@ -157,8 +178,28 @@ def priority_filter(tasks):
     else:
         print ("\nТаких задач не найдено.\n")
 
-
     return
+
+
+def overdue_tasks(tasks):
+    overdue_tasks_list = []
+    if not tasks:
+        print("\nСписок задач пока пуст.\n")
+        return
+
+    for task in tasks:
+        if not task.get("deadline", False):
+            continue
+        deadline_time = datetime.datetime.strptime(task.get("deadline"), "%Y-%m-%d").date()
+        current_time = datetime.date.today()
+        if deadline_time < current_time and not task.get("completed", False):
+            overdue_tasks_list.append(task)
+
+    if overdue_tasks_list:
+        print(f"\nСписок просроченных задач: \n")
+        show_tasks(overdue_tasks_list)
+    else:
+        print("\nПросроченные задачи отсутствуют.\n")
 
 
 def save_tasks(task):
@@ -185,6 +226,7 @@ def main():
                   "\n5. Найти задачи"
                   "\n6. Показать статистику"
                   "\n7. Показать задачи по приоритету"
+                  "\n8. Показать просроченные задачи"
                   "\n0. Выход")
 
         choice = input ("Выберите пункт: ")
@@ -206,6 +248,8 @@ def main():
                 show_statistics(tasks)
             elif choice == "7":
                 priority_filter(tasks)
+            elif choice == "8":
+                overdue_tasks(tasks)
         else:
             print("\nВведите корректное число.\n")
 
