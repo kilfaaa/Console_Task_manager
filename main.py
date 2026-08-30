@@ -70,6 +70,32 @@ def delete_task(tasks):
         print("\nНекорректный ввод. Введите конкретное число!\n")
     return
 
+def show_statistics(tasks):
+    task_count = len(tasks)
+    completed_tasks = 0
+    uncompleted_tasks = 0
+    if not tasks:
+        print("\nСписок задач пока пуст, статистика отсутствует!\n")
+        return
+
+    for task in tasks:
+        if task.get("completed", False):
+            completed_tasks += 1
+        else:
+
+            uncompleted_tasks += 1
+
+    complete_percent = int(completed_tasks / task_count * 100)
+
+    print(
+          f"\n====Статистика====\n"
+          f"\nВсего задач: {task_count}\n"
+          f"Выполнено: {completed_tasks}\n"
+          f"Не выполнено: {uncompleted_tasks}\n"
+          f"Процент выполнения: {complete_percent}%\n"
+          )
+    return
+
 
 def search_task(tasks):
     task_word = input("Поиск: ").strip().lower()
