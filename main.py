@@ -202,6 +202,50 @@ def overdue_tasks(tasks):
         print("\nПросроченные задачи отсутствуют.\n")
 
 
+def sorted_tasks(tasks):
+
+    sorted_tasks_list = []
+
+    if not tasks:
+        print("\nСписок задач пока пуст, статистика отсутствует!\n")
+        return
+
+    while True:
+        task_priority = input("Выберите сортировку:"
+                              "\n1. По ID"
+                              "\n2. По названию"
+                              "\n3. По статусу"
+                              "\n4. По дате создания")
+
+
+        if task_priority == "1":
+            sorted_tasks_list = sorted(tasks, key=lambda task: task.get("id", " "))
+            break
+
+        elif task_priority == "2":
+            sorted_tasks_list = sorted(tasks, key=lambda task: task.get("title", " ").lower())
+            break
+
+        elif task_priority == "3":
+            sorted_tasks_list = sorted(tasks, key=lambda task: task.get("completed", False))
+            break
+
+        elif task_priority == "4":
+            sorted_tasks_list = sorted(tasks, key=lambda task: task.get("created_at", " "))
+            break
+
+        else:
+            print("\nОшибка: такой сортировки не существует. Введите 1, 2, 3 или 4.\n")
+
+    print("\nСписок успешно отсортирован!\n")
+
+    show_tasks(sorted_tasks_list)
+
+    tasks.clear()
+    tasks.extend(sorted_tasks_list)
+    save_tasks(tasks)
+
+
 def save_tasks(task):
     with open('tasks.json', 'w', encoding='utf-8') as task_file:
         json.dump(task, task_file, ensure_ascii=False, indent=4)
@@ -227,6 +271,7 @@ def main():
                   "\n6. Показать статистику"
                   "\n7. Показать задачи по приоритету"
                   "\n8. Показать просроченные задачи"
+                  "\n9. Сортировка задач"
                   "\n0. Выход")
 
         choice = input ("Выберите пункт: ")
@@ -250,6 +295,8 @@ def main():
                 priority_filter(tasks)
             elif choice == "8":
                 overdue_tasks(tasks)
+            elif choice == "9":
+                sorted_tasks(tasks)
         else:
             print("\nВведите корректное число.\n")
 
