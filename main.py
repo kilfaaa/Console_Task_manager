@@ -219,7 +219,7 @@ def sorted_tasks(tasks):
 
 
         if task_priority == "1":
-            sorted_tasks_list = sorted(tasks, key=lambda task: task.get("id", " "))
+            sorted_tasks_list = sorted(tasks, key=lambda task: task.get("id", 0))
             break
 
         elif task_priority == "2":
