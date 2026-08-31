@@ -27,7 +27,10 @@ def add_task(tasks):
 
 
     while True:
-        task_deadline = input("Введите дедлайн в формате ГГГГ-ММ-ДД: ").strip()
+        task_deadline = input("Введите дедлайн в формате ГГГГ-ММ-ДД или нажмите Enter: ").strip()
+        if not task_deadline:
+            deadline_date = "Нет"
+            break
 
         try:
             valid_date = datetime.datetime.strptime(task_deadline, "%Y-%m-%d")
@@ -188,7 +191,8 @@ def overdue_tasks(tasks):
         return
 
     for task in tasks:
-        if not task.get("deadline", False):
+        deadline_str = task.get("deadline", False)
+        if not deadline_str or deadline_str == "Нет":
             continue
         deadline_time = datetime.datetime.strptime(task.get("deadline"), "%Y-%m-%d").date()
         current_time = datetime.date.today()
