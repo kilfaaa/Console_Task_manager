@@ -174,23 +174,35 @@ def search_task(tasks):
 
 
 def priority_filter(tasks):
-    task_priority = input("Введите приоритет для фильтрации задач \n(high, medium, low): ").strip().lower()
-    if not task_priority:
-        print("\nОшибка: ввод пустой!\n")
-        return
+    while True:
+        task_priority = input("Выберите приоритет задачи:"
+                              "\n1. High"
+                              "\n2. Medium"
+                              "\n3. Low"
+                              "\nПриоритет: ")
+        if task_priority.isdigit() and 1<= int(task_priority) <= 3:
+            if task_priority == "1":
+                task_priority = "high"
+            elif task_priority == "2":
+                task_priority = "medium"
+            elif task_priority == "3":
+                task_priority = "low"
+
+            break
+
+        else:
+            print ("\nОшибка, введите число от 1 до 3\n")
 
     filtered_tasks = []
     for task in tasks:
-        if task_priority in task.get("priority", " ").lower():
+        if task_priority == task.get("priority", " ").lower():
             filtered_tasks.append(task)
 
     if filtered_tasks:
         print(f"\nСписок задач с приоритетом {task_priority}: \n")
         show_tasks(filtered_tasks)
     else:
-        print ("\nТаких задач не найдено.\n")
-
-    return
+        print("\nТаких задач не найдено.\n")
 
 
 def overdue_tasks(tasks):
@@ -313,7 +325,7 @@ def main():
                 sorted_tasks(tasks)
 
         else:
-            print("\nВведите корректное число.\n")
+            print("\nОшибка: введите число от 0 до 9.\n")
 
 
 
