@@ -2,8 +2,17 @@ import json
 import datetime
 def add_task(tasks):
 
-    task_title = input("Введите название: ")
-    task_description = input ("Введите описание: ")
+    while True:
+        task_title = input("Введите название: ").strip()
+        if task_title:
+            break
+        print("\nОшибка: название задачи не может быть пустым!\n")
+
+    while True:
+        task_description = input("Введите описание: ").strip()
+        if task_description:
+            break
+        print("\nОшибка: описание задачи не может быть пустым!\n")
 
 
     while True:
@@ -280,7 +289,7 @@ def main():
                   "\n0. Выход")
 
         choice = input ("Выберите пункт: ")
-        if choice.isdigit():
+        if choice.isdigit() and 0 <= int(choice) <=9:
 
             if choice == "0":
                 break
@@ -302,6 +311,7 @@ def main():
                 overdue_tasks(tasks)
             elif choice == "9":
                 sorted_tasks(tasks)
+
         else:
             print("\nВведите корректное число.\n")
 
