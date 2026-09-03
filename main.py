@@ -215,7 +215,15 @@ def overdue_tasks(tasks):
         deadline_str = task.get("deadline", False)
         if not deadline_str or deadline_str == "Нет":
             continue
-        deadline_time = datetime.datetime.strptime(task.get("deadline"), "%Y-%m-%d").date()
+            
+        try:
+            deadline_time = datetime.datetime.strptime(task.get("deadline"), "%Y-%m-%d").date()
+        except ValueError:
+            print(f"Предупреждение: у задачи ID{task.get('id')} некорректный формат\n"
+                  f"дедлайна ('{deadline_str}'), задача пропущена при проверке просрочки.\n")
+            continue
+
+
         current_time = datetime.date.today()
         if deadline_time < current_time and not task.get("completed", False):
             overdue_tasks_list.append(task)
