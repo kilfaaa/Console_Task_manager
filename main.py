@@ -285,8 +285,9 @@ def main():
     except FileNotFoundError:
         tasks = []
     except json.decoder.JSONDecodeError:
-        tasks = []
-
+        print("\nОшибка: Файл с задачами (tasks.json) поврежден!")
+        print("Загрузка отменена во избежание потери данных. Исправьте структуру JSON-файла.\n")
+        return
     while True:
         print("=== Task Manager ==="
                   "\n1. Показать задачи"
