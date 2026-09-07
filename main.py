@@ -20,7 +20,7 @@ def add_task(tasks):
                               "\n1. High"
                               "\n2. Medium"
                               "\n3. Low"
-                              "\nПриоритет: ")
+                              "\nПриоритет: ").strip()
 
         if task_priority == "1":
             task_priority = "High"
@@ -90,7 +90,7 @@ def show_tasks(tasks):
 
 
 def complete_task(tasks):
-    id_number = input("Введите номер задачи, которую вы выполнили: ")
+    id_number = input("Введите номер задачи, которую вы выполнили: ").strip()
 
     if id_number.isdigit():
         id_target = int(id_number)
@@ -109,7 +109,7 @@ def complete_task(tasks):
 
 
 def delete_task(tasks):
-    id_number = input("Введите номер задачи, которую вы хотите удалить: ")
+    id_number = input("Введите номер задачи, которую вы хотите удалить: ").strip()
 
     if id_number.isdigit():
         id_target = int(id_number)
@@ -179,7 +179,7 @@ def priority_filter(tasks):
                               "\n1. High"
                               "\n2. Medium"
                               "\n3. Low"
-                              "\nПриоритет: ")
+                              "\nПриоритет: ").strip()
         if task_priority.isdigit() and 1<= int(task_priority) <= 3:
             if task_priority == "1":
                 task_priority = "high"
@@ -249,7 +249,7 @@ def sorted_tasks(tasks):
                               "\n2. По названию"
                               "\n3. По статусу"
                               "\n4. По дате создания"
-                              "\nВыбор: ")
+                              "\nВыбор: ").strip()
 
 
         if task_priority == "1":
@@ -296,6 +296,18 @@ def main():
         print("\nОшибка: Файл с задачами (tasks.json) поврежден!")
         print("Загрузка отменена во избежание потери данных. Исправьте структуру JSON-файла.\n")
         return
+
+    if type(tasks) != list:
+        print("\nОшибка: файл tasks.json должен содержать список задач!")
+        print("Загрузка отменена во избежание потери данных. Исправьте структуру JSON-файла.\n")
+        return
+
+    for task in tasks:
+        if type(task) != dict:
+            print("\nОшибка: в tasks.json есть элемент, который не является задачей!")
+            print("Загрузка отменена во избежание потери данных. Исправьте структуру JSON-файла.\n")
+            return
+
     while True:
         print("=== Task Manager ==="
                   "\n1. Показать задачи"
@@ -309,7 +321,7 @@ def main():
                   "\n9. Сортировка задач"
                   "\n0. Выход")
 
-        choice = input ("Выберите пункт: ")
+        choice = input ("Выберите пункт: ").strip()
         if choice.isdigit() and 0 <= int(choice) <=9:
 
             if choice == "0":

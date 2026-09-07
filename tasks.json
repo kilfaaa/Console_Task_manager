@@ -1,14 +1,5 @@
 [
     {
-        "id": 1,
-        "title": "Яблоки",
-        "description": "много",
-        "completed": false,
-        "priority": "Medium",
-        "created_at": "2026-08-31 06:02",
-        "deadline": "Нет"
-    },
-    {
         "id": 2,
         "title": "Апельсины",
         "description": "мало",
@@ -21,7 +12,7 @@
         "id": 3,
         "title": "Мандарины",
         "description": "средне",
-        "completed": false,
+        "completed": true,
         "priority": "Low",
         "created_at": "2026-08-31 06:04",
         "deadline": "Нет"
